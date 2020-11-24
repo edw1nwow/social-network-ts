@@ -1,0 +1,5 @@
+.wrapper {
+    grid-area: w;
+    background-color: green;
+    margin: 2px;
+}
