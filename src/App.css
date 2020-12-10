@@ -1,13 +1,16 @@
-.App {
-  display: grid;
-  grid-template-areas:
- 'h h'
- 'sidebar w';
+.App
+{
+    display: grid;
+
+    grid-template-areas: 'h h'
+    'sidebar w';
     grid-auto-rows: 60px 1fr;
     grid-template-columns: 2fr 10fr;
 }
 
-.app-wrapper-content {
-    grid-area: w;
+.app-wrapper-content
+{
     background-color: green;
+
+    grid-area: w;
 }

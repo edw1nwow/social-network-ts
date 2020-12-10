@@ -10,7 +10,7 @@ const Profile= () => {
     return (
         <div className={s.wrapper}>
             <ProfileInfo />
-            <MyPosts  message={Store._state.profilePage.messageForNewPost} addPostCallback={Store.addPost.bind(Store)} changeNewTextCallback={Store.changeNewText.bind(Store)}/>
+            <MyPosts  message={Store._state.profilePage.messageForNewPost} dispatch={Store.dispatch.bind(Store)} />
         </div>
     );
 }

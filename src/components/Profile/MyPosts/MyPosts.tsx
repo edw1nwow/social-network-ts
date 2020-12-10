@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import Post from "./Post/Post";
-import {myPostsType} from "../../State/State";
+import {addPostAC, updatePostAC, myPostsType} from "../../State/State";
 import Store from "../../State/State";
 
 const MyPosts = (props: myPostsType) => {
@@ -8,10 +8,11 @@ const MyPosts = (props: myPostsType) => {
     let onePost = Store._state.profilePage.posts.map(el => <Post message={el.message} likesCount={el.likesCount}/>);
 
     const addPost = () => {
-            props.addPostCallback(props.message)
+        props.dispatch(addPostAC(props.message))
     }
     const changeCallbackHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.changeNewTextCallback(e.currentTarget.value)
+        let newValueTextField = e.currentTarget.value
+        props.dispatch( updatePostAC(newValueTextField))
     }
 
     return (

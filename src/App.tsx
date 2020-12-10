@@ -7,9 +7,6 @@ import Profile from "./components/Profile/Profile";
 import Dialogs from "./components/Dialogs/Dialogs";
 
 
-
-
-
 const App = () => {
 
     return (

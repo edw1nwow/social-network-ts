@@ -3,8 +3,9 @@ export type StoreType = {
     changeNewText: (newText: string) => void
     addPost: (postText: string) => void
     subscribe: (callback: () => void) => void
-    _onChange: () => void
-    getState: ()=> StateType
+    _callSubscriber: () => void
+    getState: () => StateType
+    dispatch: (action: any) => void
 }
 type MessageType = {
     message: string
@@ -33,11 +34,15 @@ export type StateType = {
 }
 export type myPostsType = {
     message: string
-    addPostCallback: (postText: string) => void
-    changeNewTextCallback: (newText: string) => void
+    dispatch: (action: ActionsType) => void
+    // addPostCallback: (postText: string) => void
+    // changeNewTextCallback: (newText: string) => void
 }
+type addPostActionType =  ReturnType<typeof addPostAC>
+type UpdatePostActionType = ReturnType<typeof updatePostAC>
 
 
+type ActionsType = addPostActionType | UpdatePostActionType
 
 const Store: StoreType = {
     _state: {
@@ -67,7 +72,7 @@ const Store: StoreType = {
     },
     changeNewText(newText: string) {
         this._state.profilePage.messageForNewPost = newText
-        this._onChange()
+        this._callSubscriber()
     },
     addPost(postText: string) {
         let newPost: PostsType = {
@@ -76,18 +81,38 @@ const Store: StoreType = {
             likesCount: 0
         }
         Store._state.profilePage.posts.push(newPost)
-        this._onChange()
+        this._callSubscriber()
     },
-    _onChange() {
-        console.log('hello')
+    _callSubscriber() {
+        console.log('this._state')
     },
     subscribe(callback) {
-        this._onChange = callback
+        this._callSubscriber = callback
     },
-    getState(){
-       return this._state
+    getState() {
+        return this._state
+    },
+    dispatch(action) {
+        if (action.type === 'ADD-POST') {
+            let newPost: PostsType = {
+                id: '5',
+                message: action.postText,
+                likesCount: 0
+            }
+            Store._state.profilePage.posts.push(newPost)
+            this._callSubscriber()
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.profilePage.messageForNewPost = action.newText
+            this._callSubscriber()
+        }
     }
-}
 
+}
+export const addPostAC = (postText: string) => {
+        return {type: "ADD-POST", postText: postText} as const
+    }
+export const updatePostAC = (newText: string) => {
+        return {type: "UPDATE-NEW-POST-TEXT", newText: newText} as const
+    }
 
 export default Store;
