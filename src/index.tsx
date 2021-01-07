@@ -1,6 +1,6 @@
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import Store from "./components/State/State";
+import Store from "./components/State/redux-store";
 import {renderTree} from "./render";
 
 Store.subscribe(renderTree)

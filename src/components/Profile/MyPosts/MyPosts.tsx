@@ -1,11 +1,12 @@
 import React, {ChangeEvent} from 'react';
 import Post from "./Post/Post";
-import {addPostAC, updatePostAC, myPostsType} from "../../State/State";
-import Store from "../../State/State";
+import { myPostsType} from "../../State/Store";
+import Store from "../../State/redux-store";
+import {addPostAC, updatePostAC} from "../../State/Profile-reducer";
 
 const MyPosts = (props: myPostsType) => {
 
-    let onePost = Store._state.profilePage.posts.map(el => <Post message={el.message} likesCount={el.likesCount}/>);
+    let onePost = Store.getState().profilePage.posts.map(el => <Post message={el.message} likesCount={el.likesCount}/>);
 
     const addPost = () => {
         props.dispatch(addPostAC(props.message))

@@ -1,20 +1,24 @@
+import profileReducer, {addPostAC, updatePostAC} from "./Profile-reducer";
+import dialogsReducer from "./Dialogs-reducer";
+import navbarReducer from "./Navbar-reducer";
 export type StoreType = {
     _state: StateType
     changeNewText: (newText: string) => void
     addPost: (postText: string) => void
     subscribe: (callback: () => void) => void
-    _callSubscriber: () => void
+    _callSubscriber: (observer: object) => void
     getState: () => StateType
     dispatch: (action: any) => void
 }
 type MessageType = {
+    id: string
     message: string
 }
 type DialogType = {
     id: string
     name: string
 }
-type PostsType = {
+export type PostsType = {
     id: string
     likesCount: number
     message: string
@@ -26,21 +30,20 @@ type ProfilePageType = {
 type messagesPageType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
+    newMessageBody: string
 }
 export type StateType = {
     profilePage: ProfilePageType
     messagesPage: messagesPageType
-
+    navbarPage: object
 }
 export type myPostsType = {
     message: string
     dispatch: (action: ActionsType) => void
-    // addPostCallback: (postText: string) => void
-    // changeNewTextCallback: (newText: string) => void
 }
-type addPostActionType =  ReturnType<typeof addPostAC>
-type UpdatePostActionType = ReturnType<typeof updatePostAC>
 
+type addPostActionType = ReturnType<typeof addPostAC>
+type UpdatePostActionType = ReturnType<typeof updatePostAC>
 
 type ActionsType = addPostActionType | UpdatePostActionType
 
@@ -58,21 +61,23 @@ const Store: StoreType = {
         messagesPage: {
             dialogs: [
                 {id: "1s", name: 'Stas'},
-                {id: "s2", name: "Lera"},
+                {id: "2s", name: "Lera"},
                 {id: "3s", name: "vasya"},
                 {id: "4s", name: "kirill"}
             ],
             messages: [
-                {message: "Hello"},
-                {message: "How are u"},
-                {message: "Bye"},
-                {message: "=D"}
-            ]
-        }
+                {id: '1', message: "Hello"},
+                {id: '2', message: "How are u"},
+                {id: '3', message: "Bye"},
+                {id: '4', message: "=D"}
+            ],
+            newMessageBody: ''
+        },
+        navbarPage: {}
     },
     changeNewText(newText: string) {
         this._state.profilePage.messageForNewPost = newText
-        this._callSubscriber()
+        this._callSubscriber(this._state)
     },
     addPost(postText: string) {
         let newPost: PostsType = {
@@ -81,10 +86,10 @@ const Store: StoreType = {
             likesCount: 0
         }
         Store._state.profilePage.posts.push(newPost)
-        this._callSubscriber()
+        this._callSubscriber(this._state)
     },
     _callSubscriber() {
-        console.log('this._state')
+        console.log(this._state)
     },
     subscribe(callback) {
         this._callSubscriber = callback
@@ -93,26 +98,12 @@ const Store: StoreType = {
         return this._state
     },
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
-            let newPost: PostsType = {
-                id: '5',
-                message: action.postText,
-                likesCount: 0
-            }
-            Store._state.profilePage.posts.push(newPost)
-            this._callSubscriber()
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-            this._state.profilePage.messageForNewPost = action.newText
-            this._callSubscriber()
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.messagesPage = dialogsReducer(this._state.messagesPage, action)
+        this._state.navbarPage = navbarReducer(this._state.navbarPage, action)
+        this._callSubscriber(this._state)
     }
-
 }
-export const addPostAC = (postText: string) => {
-        return {type: "ADD-POST", postText: postText} as const
-    }
-export const updatePostAC = (newText: string) => {
-        return {type: "UPDATE-NEW-POST-TEXT", newText: newText} as const
-    }
+
 
 export default Store;
