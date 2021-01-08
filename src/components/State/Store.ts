@@ -1,6 +1,7 @@
 import profileReducer, {addPostAC, updatePostAC} from "./Profile-reducer";
 import dialogsReducer from "./Dialogs-reducer";
 import navbarReducer from "./Navbar-reducer";
+import {ChangeEvent} from "react";
 export type StoreType = {
     _state: StateType
     changeNewText: (newText: string) => void
@@ -10,6 +11,8 @@ export type StoreType = {
     getState: () => StateType
     dispatch: (action: any) => void
 }
+
+
 type MessageType = {
     id: string
     message: string
@@ -37,15 +40,11 @@ export type StateType = {
     messagesPage: messagesPageType
     navbarPage: object
 }
-export type myPostsType = {
-    message: string
-    dispatch: (action: ActionsType) => void
+export type myPostsContainerType = {
+    Store: StoreType
 }
 
-type addPostActionType = ReturnType<typeof addPostAC>
-type UpdatePostActionType = ReturnType<typeof updatePostAC>
 
-type ActionsType = addPostActionType | UpdatePostActionType
 
 const Store: StoreType = {
     _state: {

@@ -9,5 +9,10 @@ let reducers = combineReducers({
     navbarPage: navbarReducer
 })
 
+export type RootStateRedux = ReturnType<typeof reducers>
+
 let store = createStore(reducers);
+
+export type ReduxStoreType = typeof store
+
 export default store;

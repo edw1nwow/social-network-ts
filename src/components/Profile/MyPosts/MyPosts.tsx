@@ -1,19 +1,24 @@
 import React, {ChangeEvent} from 'react';
 import Post from "./Post/Post";
-import { myPostsType} from "../../State/Store";
-import Store from "../../State/redux-store";
-import {addPostAC, updatePostAC} from "../../State/Profile-reducer";
+import {PostsType} from "../../State/Store";
 
-const MyPosts = (props: myPostsType) => {
+export type MyPostsPropsType = {
+    message: string
+    posts: Array<PostsType>
+    addPost: () => void
+    updateNewPostText: (e: ChangeEvent<HTMLTextAreaElement>) => void
+}
 
-    let onePost = Store.getState().profilePage.posts.map(el => <Post message={el.message} likesCount={el.likesCount}/>);
+const MyPosts = (props: MyPostsPropsType) => {
+
+    let onePost = props.posts.map(el => <Post message={el.message} likesCount={el.likesCount}/>);
 
     const addPost = () => {
-        props.dispatch(addPostAC(props.message))
+        props.addPost()
     }
-    const changeCallbackHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const changeCallbackHandler = (e: any) => {
         let newValueTextField = e.currentTarget.value
-        props.dispatch( updatePostAC(newValueTextField))
+        props.updateNewPostText(newValueTextField)
     }
 
     return (
