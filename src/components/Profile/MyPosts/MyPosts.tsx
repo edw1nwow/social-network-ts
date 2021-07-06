@@ -1,22 +1,17 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import Post from "./Post/Post";
-import {PostsType} from "../../State/Store";
+import {MyPostsPropsTypes} from './MyPostsContainer';
 
-export type MyPostsPropsType = {
-    message: string
-    posts: Array<PostsType>
-    addPost: () => void
-    updateNewPostText: (e: ChangeEvent<HTMLTextAreaElement>) => void
-}
 
-const MyPosts = (props: MyPostsPropsType) => {
 
-    let onePost = props.posts.map(el => <Post message={el.message} likesCount={el.likesCount}/>);
+const MyPosts = (props: MyPostsPropsTypes) => {
+
+    let onePost = props.profilePage.posts.map(el => <Post message={el.message} likesCount={el.likesCount}/>);
 
     const addPost = () => {
-        props.addPost()
+        props.addPost(props.profilePage.messageForNewPost)
     }
-    const changeCallbackHandler = (e: any) => {
+    const changeCallbackHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         let newValueTextField = e.currentTarget.value
         props.updateNewPostText(newValueTextField)
     }
@@ -25,7 +20,7 @@ const MyPosts = (props: MyPostsPropsType) => {
         <div>
             <div>
                 <h4>new post</h4>
-                <div><textarea value={props.message} onChange={changeCallbackHandler}> </textarea></div>
+                <div><textarea value={props.profilePage.messageForNewPost} onChange={changeCallbackHandler}> </textarea></div>
                 <div>
                     <button onClick={addPost}>Button</button>
                 </div>

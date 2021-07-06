@@ -1,38 +1,37 @@
-import React from "react";
-import s from './Dialogs.module.css'
-import store from "../State/redux-store";
-import {sendMessageAC, updateMessageAC} from "../State/Dialogs-reducer";
+import {InitialStateType, sendMessageAC, updateMessageAC} from "../Redux/Dialogs-reducer";
 import Dialogs from "./Dialogs";
-import StoreContext from "../../StoreContext";
+import {connect} from "react-redux";
+import {RootStateRedux} from "../Redux/Redux-store";
+import { Dispatch } from "redux";
 
-
-const DialogsContainer = () => {
-
-    return (
-        <StoreContext.Consumer>
-            {
-            (Store) => {
-                let state = Store.getState().messagesPage
-
-                let onMessageChange = (body: any) => {
-                    store.dispatch(updateMessageAC(body))
-                }
-
-                let onSendMessageClick = () => {
-                    store.dispatch(sendMessageAC())
-                }
-
-                return <div className={s.Dialogs}>
-                    <Dialogs dialogsElements={state.dialogs}
-                             messagesElements={state.messages}
-                             newMessageBody={state.newMessageBody}
-                             onNewMessageChange={onMessageChange}
-                             onSendMessageClick={onSendMessageClick}/>
-                </div>
-            }
-        }
-        </StoreContext.Consumer>
-    )
+type MapStatePropsType = {
+    messagesPage: InitialStateType
 }
+
+type MapDispatchPropsType = {
+    newMessageBody: (body: string) => void,
+    onSendMessageClick: () => void
+}
+
+export type DialogsPropsTypes = MapStatePropsType & MapDispatchPropsType
+
+let mapStateToProps = (state: RootStateRedux): MapStatePropsType => {
+    return {
+        messagesPage: state.messagesPage
+    }
+}
+let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType  => {
+    return {
+        newMessageBody: (body: string) => {
+            dispatch(updateMessageAC(body))
+        },
+        onSendMessageClick: () => {
+            dispatch(sendMessageAC())
+        }
+    }
+}
+
+
+const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
 
 export default DialogsContainer;

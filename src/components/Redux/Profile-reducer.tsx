@@ -1,33 +1,44 @@
-import {PostsType} from "./Store";
+type PostsType = {
+    id: string
+    likesCount: number
+    message: string
+}
+
 let initialState = {
-    messageForNewPost: '',
     posts: [
         {id: '1', likesCount: 1, message: 'Hello'},
         {id: '2', likesCount: 2, message: 'Dima '},
         {id: '3', likesCount: 3, message: 'kak tu'},
         {id: '4', likesCount: 4, message: 'Nope'}
-    ]
+    ] as Array<PostsType>,
+    messageForNewPost: ''
 }
 
-const profileReducer = (state = initialState, action: any) => {
+export type initialStateType = typeof initialState;
+
+const profileReducer = (state: initialStateType = initialState, action: ActionsType): initialStateType => {
     switch (action.type) {
-        case 'ADD-POST':
+        case 'ADD-POST': {
             let newPost: PostsType = {
                 id: '5',
                 message: action.postText,
                 likesCount: 0
             }
-            state.posts.push(newPost)
-            return state
+            return {
+                ...state,
+                posts: [...state.posts, newPost],
+                messageForNewPost: ''
+            }
+        }
         case 'UPDATE-NEW-POST-TEXT':
-            state.messageForNewPost = action.newText
-            return state
+            return {
+                ...state,
+                messageForNewPost: action.newText
+            }
         default:
-            return state
+            return state;
     }
-
 }
-
 
 type addPostActionType = ReturnType<typeof addPostAC>
 type UpdatePostActionType = ReturnType<typeof updatePostAC>
