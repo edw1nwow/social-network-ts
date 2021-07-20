@@ -17,6 +17,8 @@ export type RootStateRedux = ReturnType<typeof reducers>
 
 export const store = createStore(reducers);
 
+
+
 //export type ReduxStoreType = typeof store
 
 export default store;
