@@ -6,10 +6,8 @@ import {DialogsPropsTypes} from "./DialogsContainer";
 import {DialogType, MessageType} from "../Redux/Dialogs-reducer";
 
 
-
-
 const Dialogs = (props: DialogsPropsTypes) => {
-    let dialogsElements = props.messagesPage.dialogs.map((el:DialogType) => <DialogItem name={el.name} id={el.id}/>)
+    let dialogsElements = props.messagesPage.dialogs.map((el: DialogType) => <DialogItem name={el.name} id={el.id}/>)
     let messagesElements = props.messagesPage.messages.map((el: MessageType) => <Message message={el.message}/>)
     let MessageBody = props.messagesPage.newMessageText
 

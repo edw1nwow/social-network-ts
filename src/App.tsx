@@ -5,6 +5,7 @@ import Profile from "./components/Profile/Profile";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
+import UsersContainer from "./components/Users/UsersContainer";
 
 
 
@@ -15,8 +16,9 @@ const App = () => {
                 <Header/>
                 <Navbar/>
                 <div className='app-wrapper-content'>
-                    <Route path='/profile' render={() => <Profile/>}/>
-                    <Route path='/dialogs' render={() => <DialogsContainer/>}/>
+                    <Route path='/Profile' render={() => <Profile/>}/>
+                    <Route path='/Dialogs' render={() => <DialogsContainer/>}/>
+                    <Route path='/Users' render={() => <UsersContainer/>}/>
                 </div>
             </div>
         </BrowserRouter>
