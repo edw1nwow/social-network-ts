@@ -1,37 +1,36 @@
-import {InitialStateType, sendMessageAC, updateMessageAC} from "../Redux/Dialogs-reducer";
+import {InitialStateType, sendMessageAC} from "../../redux/Dialogs-reducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
-import {RootStateRedux} from "../Redux/Redux-store";
-import { Dispatch } from "redux";
+import {RootStateRedux} from "../../redux/Redux-store";
+import {Dispatch, compose} from "redux";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import React from "react";
 
 type MapStatePropsType = {
     messagesPage: InitialStateType
 }
-
 type MapDispatchPropsType = {
-    newMessageBody: (body: string) => void,
-    onSendMessageClick: () => void
+    onSendMessageClick: (newMessageText: string ) => void
 }
-
 export type DialogsPropsTypes = MapStatePropsType & MapDispatchPropsType
+
 
 let mapStateToProps = (state: RootStateRedux): MapStatePropsType => {
     return {
-        messagesPage: state.messagesPage
+        messagesPage: state.messagesPage,
     }
 }
-let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType  => {
+let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
     return {
-        newMessageBody: (body: string) => {
-            dispatch(updateMessageAC(body))
-        },
-        onSendMessageClick: () => {
-            dispatch(sendMessageAC())
+
+        onSendMessageClick: (newMessageText: string) => {
+            dispatch(sendMessageAC(newMessageText))
         }
     }
 }
 
 
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
-
-export default DialogsContainer;
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
+)(Dialogs)

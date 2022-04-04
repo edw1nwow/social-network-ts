@@ -1,4 +1,4 @@
-import {authAPI} from "../Api/Api";
+import {authAPI} from "../api/Api";
 import {Dispatch} from "redux";
 
 

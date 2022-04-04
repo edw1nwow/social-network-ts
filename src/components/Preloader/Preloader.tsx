@@ -1,5 +1,5 @@
 import React from "react";
-import preloader from '../Assets/Img/Fetching.gif'
+import preloader from '../../Assets/Img/Fetching.gif'
 
 let Preloader = () => {
 

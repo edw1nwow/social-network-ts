@@ -1,9 +1,12 @@
 import React from "react";
 import Preloader from "../Preloader/Preloader";
 import {ProfileType} from "./ProfileContainer";
+import ProfileStatus from "./ProfileStatus"
 
 type ProfileInfoPropsType = {
     profile: null | ProfileType
+    status: string
+    updateStatus: (status: string) => void
 }
 
 const ProfileInfo = (props: ProfileInfoPropsType) => {
@@ -13,6 +16,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
 
     return (
         <div>
+            <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
             <img src={props.profile.photos.large} alt="Avatar"/>
             <h1>{props.profile.fullName} </h1>
             <div>
@@ -20,8 +24,8 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
                 <div>
                     <p>looking a job</p>
                     {props.profile.lookingForAJob === true ?
-                        <input type='checkbox' defaultChecked={true} /> :
-                        <input type='checkbox'defaultChecked={false}/>}
+                        <input type='checkbox' defaultChecked={true}/> :
+                        <input type='checkbox' defaultChecked={false}/>}
                 </div>
                 <p>Description about my looking a job: {props.profile.lookingForAJobDescription}</p>
                 <p>Some info about me: {props.profile.aboutMe}</p>

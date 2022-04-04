@@ -5,15 +5,20 @@ import navbarReducer from "./Navbar-reducer";
 import usersReducer from "./Users-reducer";
 import authReducer from "./Auth-reducer";
 import thunkMiddleware from "redux-thunk"
+import {reducer as formReducer} from 'redux-form'
 
 declare const window: any;
+type ReducersType = typeof reducers
+
+export type AppStateType = ReturnType<ReducersType>
 
 let reducers = combineReducers({
     profilePage: profileReducer,
     messagesPage: dialogsReducer,
     navbarPage: navbarReducer,
     usersPage: usersReducer,
-    auth: authReducer
+    auth: authReducer,
+    form: formReducer
 })
 
 export type RootStateRedux = ReturnType<typeof reducers>
