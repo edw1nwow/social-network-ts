@@ -1,8 +1,9 @@
-import {addPost, initialStateType} from "../../../redux/Profile-reducer";
+import {actions, initialStateType} from "../../../redux/Profile-reducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
-import {RootStateRedux} from "../../../redux/Redux-store";
+import {AppStateType} from "../../../redux/Redux-store";
 import { Dispatch } from 'redux';
+
 
 export type MapStatePropsType = {
     profilePage:initialStateType
@@ -13,7 +14,7 @@ type MapDispatchPropsType = {
 }
 export type MyPostsPropsTypes = MapStatePropsType & MapDispatchPropsType
 
-let mapStateToProps = (state: RootStateRedux): MapStatePropsType => {
+let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         profilePage: state.profilePage
     }
@@ -22,7 +23,7 @@ let mapStateToProps = (state: RootStateRedux): MapStatePropsType => {
 let mapDispatchToProps = (dispatch: Dispatch):MapDispatchPropsType => {
     return {
         addPost: (newPostText: string) => {
-            dispatch(addPost(newPostText))
+            dispatch(actions.addPost(newPostText))
         }
     }
 }

@@ -5,6 +5,7 @@ import {NavLink} from "react-router-dom";
 type HeaderPropsType = {
     isAuth: boolean
     login: null | string
+    logout: () => void
 }
 
 const Header = (props: HeaderPropsType) => {
@@ -18,7 +19,9 @@ const Header = (props: HeaderPropsType) => {
                       clipRule="evenodd"/>
             </svg>
             <div className={s.loginBlock}>
-                {props.isAuth ? <h2>{props.login}</h2> : <NavLink to={'/login'}>Log in</NavLink>}
+                {props.isAuth
+                    ? <div><h2>{props.login}</h2> - <button onClick={props.logout}>logout</button></div>
+                    : <NavLink to={'/login'}>Log in</NavLink>}
             </div>
         </div>
     );

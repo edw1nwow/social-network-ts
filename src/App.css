@@ -3,8 +3,8 @@
     display: grid;
 
     grid-template-areas: 'h h'
-    'sidebar w';
-    grid-auto-rows: 60px 1fr;
+                        'sidebar w';
+    grid-auto-rows: 110px 1fr;
     grid-template-columns: 2fr 10fr;
 }
 

@@ -1,31 +1,20 @@
-export type DialogType = {
-    id: string
-    name: string
-}
-export type MessageType = {
-    id: string
-    message: string
-}
-
+import {InferActionsType} from "./Redux-store";
 
 let initialState = {
     dialogs: [
-        {id: "1s", name: 'Stas'},
-        {id: "2s", name: "Lera"},
-        {id: "3s", name: "vasya"},
-        {id: "4s", name: "kirill"}
+        {id: 1, name: 'Stas'},
+        {id: 2, name: "Lera"},
+        {id: 3, name: "vasya"},
+        {id: 4, name: "kirill"}
     ] as Array<DialogType>,
     messages: [
-        {id: '1', message: "Hello"},
-        {id: '2', message: "How are u"},
-        {id: '3', message: "Bye"},
-        {id: '4', message: "=D"}
+        {id: 1, message: "Hello"},
+        {id: 2, message: "How are u"},
+        {id: 3, message: "Bye"},
+        {id: 4, message: "=D"}
     ] as Array<MessageType>,
     newMessageText: '' as string
-
 }
-
-export type InitialStateType = typeof initialState
 
 const dialogsReducer = (state: InitialStateType = initialState, action: ActionTypes): InitialStateType => {
     switch (action.type) {
@@ -34,7 +23,7 @@ const dialogsReducer = (state: InitialStateType = initialState, action: ActionTy
             let body = action.newMessageText
             return {
                 ...state,
-                messages: [...state.messages, {id: '6', message: body}]
+                messages: [...state.messages, {id: 6, message: body}]
             }
         }
 
@@ -43,16 +32,24 @@ const dialogsReducer = (state: InitialStateType = initialState, action: ActionTy
     }
 }
 
-type sendMessageActionType = ReturnType<typeof sendMessageAC>
-
-
-type ActionTypes =  sendMessageActionType
-
-
-
-export const sendMessageAC = (newMessageText: string) => {
-    return {type: "SEND-NEW-MESSAGE-BODY", newMessageText} as const
+export const actions = {
+    sendMessageAC: (newMessageText: string) => {
+        return {type: "SEND-NEW-MESSAGE-BODY", newMessageText} as const
+    }
 }
 
-
 export default dialogsReducer;
+
+type ActionTypes = InferActionsType<typeof actions>
+
+export type InitialStateType = typeof initialState
+
+export type DialogType = {
+    id: number
+    name: string
+}
+
+export type MessageType = {
+    id: number
+    message: string
+}
